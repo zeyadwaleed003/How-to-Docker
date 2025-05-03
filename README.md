@@ -91,11 +91,59 @@ docker rm (container_name) -f
 Open a shell inside the running container for debugging or manual commands.
 
 ```bash
-docker exec -it (container-name) bash
+docker exec -it (container_name) bash
 ```
+
+### 11. View Container Logs
+
+Check the logs of a running or stopped container for debugging.
+
+```bash
+docker logs (container_name)
+```
+
+### 12. Run Container with Hot Reloading - 2 Way Binding
+
+This will sync your project directory with directory inside docker container. Changes on either side will impact the other (security vulnerability).
+
+```bash
+docker run --name (container_name) -d -p 3000:3000 (directory_path:docker_directory) -v (image_name)
+```
+
+### 13. Run Container with How Reloading - 1 Way Binding
+
+This will sync your project directory with directory inside docker container using `ro` (read only). It's a 1 way binding because changes happening to the project directory will affect the docker container directory but NOT visa versa.
+
+```bash
+docker run --name (container_name) -d -p 3000:3000  -v (directory_path:docker_directory:ro) (image_name)
+```
+
+`${PWD}` represents the current working directory in windows.
+
+This is the best way FOR NOW.
+
+### 14. Run Container with Hot Reloading - 1 Way Binding - Anonymous Volumes
+
+Use this if U want to run a container and U don't want a specific folder in a directory in the container to be changed.
+
+Example:
+
+```bash
+docker run --name node-app-container -v ${PWD}:/app -v /app/node_modules -d -p 3000:3000 node-app
+```
+
+This means if something happens to the node_modules folder in your working directory, the node_modules folder in the docker container will not be affected.
 
 ## FAQ
 
 - **Why did I split the "package.json" copy command?**
 
   To reduce build time by reusing installed dependencies when only my code changes, thanks to Docker's caching. If you didn't copy package.json separately, Docker would rebuild and reinstall dependencies every time any file changes, slowing down the build process.
+
+- **What is Docker Hot Reload?**
+
+  The application running inside the container detects changes to source files and reloads or restarts only the affected parts without rebuilding the entire image or stopping the container. This is particularly useful for Node.js projects, as it speeds up development by providing instant feedback on code changes, similar to how hot reloading works in a local development environment using tools like nodemon.
+
+- **Hot Reloading not working?**
+
+  This is because native file-watching is unreliable in Docker volumes. U will need to use the `--legacy-watch` (or `-L`) flag with nodemon which enables Chokidar's polling.
