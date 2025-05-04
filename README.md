@@ -134,6 +134,22 @@ docker run --name node-app-container -v ${PWD}:/app -v /app/node_modules -d -p 3
 
 This means if something happens to the node_modules folder in your working directory, the node_modules folder in the docker container will not be affected.
 
+### 15. Start Services in docker-compose yml file in Detached Mode
+
+This command will start and run the services `docker-compose.yml`. U now don't need to manually build images from Dockerfile. U don't need to manually run containers.
+
+```bash
+docker-compose up -d
+```
+
+### 16. Stop and Remove Resources Created by docker-compose yml file
+
+It won't remove the images created before but will stop and remove the containers.
+
+```bash
+docker-compose down
+```
+
 ## FAQ
 
 - **Why did I split the "package.json" copy command?**

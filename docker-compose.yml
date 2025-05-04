@@ -1,0 +1,12 @@
+# Keep compatibility with the older Compose tool use versions: 2.4 or 3.8
+version: '3.8'
+services:
+  # Service name
+  app:
+    container_name: node-app-container
+    build: . # Smart enough to search for the Dockerfile inside the working directory
+    volumes:
+      # The dot(.) = ${PWD}
+      - .:/app:ro
+    ports:
+      - '3000:3000'
