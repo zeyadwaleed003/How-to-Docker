@@ -1,0 +1,10 @@
+services:
+  # Service name
+  app:
+    build:
+      context: . # Smart enough to search for the Dockerfile inside the working directory
+      target: production
+    container_name: test-container-prod
+    # Variables defined in environment take priority over those in env_file
+    environment:
+      - NODE_ENV=production
