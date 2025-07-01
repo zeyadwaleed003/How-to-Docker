@@ -157,6 +157,24 @@ docker compose up -d
 
 If the `build` directive is used inside the docker compose file it will build an image locally and runs a container from it.
 
+If U have multiple docker compose files U need to specify which file U want to use.
+
+Example:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+
+If U have multiple docker compose files with a base compose file containing the base common things for all other compose files U need to add the base compose file in the command.
+
+Example:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+
+If for some reason U wanted to build a new image and then run a container use the `--build` flag.
+
 ### 16. Stop and Remove Resources Created by docker-compose yml file
 
 It won't remove the images created before but will stop and remove the containers.
