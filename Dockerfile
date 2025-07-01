@@ -1,6 +1,6 @@
 # Specifies the base image for the Docker container, using Node.js version 22.11.0
 # U can find different base images in Docker Hub
-FROM node:22.11.0
+FROM node
 
 # Sets the working directory inside the container to /app
 WORKDIR /app

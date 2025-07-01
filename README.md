@@ -115,12 +115,25 @@ docker run --name (container_name) -d -p 3000:3000 (directory_path:docker_direct
 This will sync your project directory with directory inside docker container using `ro` (read only). It's a 1 way binding because changes happening to the project directory will affect the docker container directory but NOT visa versa.
 
 ```bash
-docker run --name (container_name) -d -p 3000:3000  -v (directory_path:docker_directory:ro) (image_name)
+docker run --name (container_name) -d -p 3000:3000 -v (directory_path:docker_directory:ro) (image_name)
 ```
 
+`$(pwd)` represents the current working directory in Linux.
 `${PWD}` represents the current working directory in windows.
 
 This is the best way FOR NOW.
+
+If your application code is inside a src folder. It would be a good idea to only 1 way bind the src folder in your current working directory with the src folder inside the container.
+
+Example:
+
+```bash
+docker run --name test-container -d -p 3000:3000 -v $(pwd)/src:/app/src test-image
+```
+
+Hot Reloading - Binding only syncs things with each other. But it won't change the image or the container content!
+
+The concept of Hot Reloading in Docker is primarily beneficial in development environments.
 
 ### 14. Run Container with Hot Reloading - 1 Way Binding - Anonymous Volumes
 
@@ -139,15 +152,17 @@ This means if something happens to the node_modules folder in your working direc
 This command will start and run the services `docker-compose.yml`. U now don't need to manually build images from Dockerfile. U don't need to manually run containers.
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
+
+If the `build` directive is used inside the docker compose file it will build an image locally and runs a container from it.
 
 ### 16. Stop and Remove Resources Created by docker-compose yml file
 
 It won't remove the images created before but will stop and remove the containers.
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## FAQ
